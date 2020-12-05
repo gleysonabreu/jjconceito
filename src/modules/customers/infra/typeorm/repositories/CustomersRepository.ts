@@ -14,6 +14,7 @@ class CustomersRepository implements ICustomersRepository {
   public async create(customerUser: ICreateCustomerDTO): Promise<Customer> {
     const customer = this.ormRepository.create(customerUser);
 
+    await customer.encryptPassword();
     await this.ormRepository.save(customer);
     return customer;
   }
