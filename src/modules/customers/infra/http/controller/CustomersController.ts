@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 
 import CreateCustomerService from '@modules/customers/services/CreateCustomerService';
-
 import { container } from 'tsyringe';
+import customerViews from '../views/customers.view';
 
 export default class CustomersController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -19,6 +19,6 @@ export default class CustomersController {
       cpf,
     });
 
-    return response.status(201).json(customer);
+    return response.status(201).json(customerViews.render(customer));
   }
 }
