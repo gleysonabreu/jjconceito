@@ -5,7 +5,7 @@ const AppHandleError = (
   error: Error,
   request: Request,
   response: Response,
-  _: NextFunction,
+  _next: NextFunction,
 ) => {
   if (error instanceof AppError) {
     return response.status(error.statusCode).json({
