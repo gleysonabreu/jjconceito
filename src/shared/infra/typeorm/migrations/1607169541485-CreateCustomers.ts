@@ -37,6 +37,7 @@ export class CreateCustomers1607169541485 implements MigrationInterface {
           {
             name: 'cpf',
             type: 'char(11)',
+            isUnique: true,
           },
           {
             name: 'created_at',
