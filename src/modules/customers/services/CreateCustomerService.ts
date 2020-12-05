@@ -22,13 +22,17 @@ class CreateCustomerService {
   ) {}
 
   public async execute(customerRequest: IRequest): Promise<Customer> {
-    const customerExists = await this.customersRepository.findByEmail(
+    const customerExistsEmail = await this.customersRepository.findByEmail(
       customerRequest.email,
     );
+    const customerExistsCpf = await this.customersRepository.findByCpf(
+      customerRequest.cpf,
+    );
 
-    if (customerExists) {
+    if (customerExistsCpf)
+      throw new AppError('This CPF is already assigned to a customer.');
+    if (customerExistsEmail)
       throw new AppError('This e-mail is already assigned to a customer');
-    }
 
     const customer = await this.customersRepository.create(customerRequest);
     return customer;

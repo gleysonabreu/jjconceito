@@ -32,6 +32,16 @@ class CustomersRepository implements ICustomersRepository {
 
     return findCustomer;
   }
+
+  public async findByCpf(cpf: string): Promise<Customer | undefined> {
+    const findCustomer = await this.ormRepository.findOne({
+      where: {
+        cpf,
+      },
+    });
+
+    return findCustomer;
+  }
 }
 
 export default CustomersRepository;
