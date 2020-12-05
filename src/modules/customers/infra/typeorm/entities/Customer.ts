@@ -4,10 +4,13 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
+  JoinColumn,
 } from 'typeorm';
 
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import Address from './Address';
 
 @Entity('customers')
 class Customer {
@@ -37,6 +40,12 @@ class Customer {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToMany(() => Address, address => address.customer, {
+    cascade: ['update', 'insert'],
+  })
+  @JoinColumn({ name: 'customer_id' })
+  addresses: Address[];
 
   public async session(): Promise<string> {
     return jwt.sign(
