@@ -1,0 +1,39 @@
+import AppError from '@shared/errors/AppError';
+import { inject, injectable } from 'tsyringe';
+import Customer from '../infra/typeorm/entities/Customer';
+import ICustomersRepository from '../repositories/ICustomersRepository';
+
+interface IRequest {
+  firstname: string;
+  lastname: string;
+  phone: string;
+  id: string;
+}
+
+@injectable()
+class UpdateCustomerService {
+  constructor(
+    @inject('CustomersRepository')
+    private customersRepository: ICustomersRepository,
+  ) {}
+
+  public async execute({
+    firstname,
+    lastname,
+    phone,
+    id,
+  }: IRequest): Promise<Customer> {
+    const customer = await this.customersRepository.findById(id);
+
+    if (!customer) throw new AppError('Customer does not exist.');
+
+    customer.firstname = firstname;
+    customer.lastname = lastname;
+    customer.phone = phone;
+
+    const customerUpdated = await this.customersRepository.update(customer);
+    return customerUpdated;
+  }
+}
+
+export default UpdateCustomerService;

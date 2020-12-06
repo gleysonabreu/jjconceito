@@ -43,6 +43,11 @@ class CustomersRepository implements ICustomersRepository {
 
     return findCustomer;
   }
+
+  public async update(customer: Customer): Promise<Customer> {
+    const customerUpdated = await this.ormRepository.save({ ...customer });
+    return customerUpdated;
+  }
 }
 
 export default CustomersRepository;
