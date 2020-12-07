@@ -10,8 +10,19 @@ class AddressesRepository implements IAddressesRepository {
     this.ormRepository = getRepository(Address);
   }
 
+  public async delete(id: string): Promise<void> {
+    await this.ormRepository.delete(id);
+  }
+
+  public async update(address: Address): Promise<Address> {
+    const addressUpdated = await this.ormRepository.save({ ...address });
+    return addressUpdated;
+  }
+
   public async findById(id: string): Promise<Address | undefined> {
-    const findAddress = await this.ormRepository.findOne(id);
+    const findAddress = await this.ormRepository.findOne(id, {
+      relations: ['customer'],
+    });
     return findAddress;
   }
 

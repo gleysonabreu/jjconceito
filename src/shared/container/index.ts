@@ -4,7 +4,7 @@ import ICustomersRepository from '@modules/customers/repositories/ICustomersRepo
 import CustomersRepository from '@modules/customers/infra/typeorm/repositories/CustomersRepository';
 
 import IAddressesRepository from '@modules/customers/repositories/IAddressesRepository';
-import AddresesRepository from '@modules/customers/infra/typeorm/repositories/AddressesRepository';
+import AddressesRepository from '@modules/customers/infra/typeorm/repositories/AddressesRepository';
 
 container.registerSingleton<ICustomersRepository>(
   'CustomersRepository',
@@ -13,5 +13,5 @@ container.registerSingleton<ICustomersRepository>(
 
 container.registerSingleton<IAddressesRepository>(
   'AddressesRepository',
-  AddresesRepository,
+  AddressesRepository,
 );
