@@ -16,7 +16,7 @@ class Address {
   address: string;
 
   @Column()
-  name: string;
+  number: string;
 
   @Column()
   complement: string;
@@ -40,7 +40,7 @@ class Address {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'customer_id' })
-  customers: Customer;
+  customer: Customer;
 }
 
 export default Address;
