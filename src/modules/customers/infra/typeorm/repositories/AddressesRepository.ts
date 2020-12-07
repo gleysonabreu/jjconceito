@@ -10,6 +10,11 @@ class AddressesRepository implements IAddressesRepository {
     this.ormRepository = getRepository(Address);
   }
 
+  public async findById(id: string): Promise<Address | undefined> {
+    const findAddress = await this.ormRepository.findOne(id);
+    return findAddress;
+  }
+
   public async create(addressCustomer: ICreateAddressDTO): Promise<Address> {
     const address = this.ormRepository.create(addressCustomer);
 
