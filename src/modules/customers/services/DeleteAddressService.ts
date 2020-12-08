@@ -1,5 +1,6 @@
-import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
+import * as Yup from 'yup';
+import AppError from '@shared/errors/AppError';
 import IAddressesRepository from '../repositories/IAddressesRepository';
 
 interface IRequest {
@@ -15,8 +16,13 @@ class DeleteAddressService {
   ) {}
 
   public async execute({ id, customerId }: IRequest): Promise<void> {
-    const address = await this.addressesRepository.findById(id);
+    const schema = Yup.object().shape({
+      id: Yup.string().uuid().required(),
+      customerId: Yup.string().uuid().required(),
+    });
+    await schema.validate({ id, customerId }, { abortEarly: false });
 
+    const address = await this.addressesRepository.findById(id);
     if (!address) throw new AppError('This address does not exist.');
 
     if (address.customer.id !== customerId)

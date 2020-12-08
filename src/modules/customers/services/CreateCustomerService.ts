@@ -1,5 +1,5 @@
 import { inject, injectable } from 'tsyringe';
-
+import * as Yup from 'yup';
 import AppError from '@shared/errors/AppError';
 
 import Customer from '../infra/typeorm/entities/Customer';
@@ -22,6 +22,16 @@ class CreateCustomerService {
   ) {}
 
   public async execute(customerRequest: IRequest): Promise<Customer> {
+    const schema = Yup.object().shape({
+      firstname: Yup.string().required().min(3),
+      lastname: Yup.string().required().min(3),
+      password: Yup.string().required().min(6),
+      email: Yup.string().email().required().min(5),
+      phone: Yup.string().required().min(10),
+      cpf: Yup.string().required().min(11),
+    });
+    await schema.validate(customerRequest, { abortEarly: false });
+
     const customerExistsEmail = await this.customersRepository.findByEmail(
       customerRequest.email,
     );

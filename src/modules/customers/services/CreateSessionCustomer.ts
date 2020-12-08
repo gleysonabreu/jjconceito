@@ -1,4 +1,5 @@
 import { inject, injectable } from 'tsyringe';
+import * as Yup from 'yup';
 import AppError from '@shared/errors/AppError';
 import ICustomersRepository from '../repositories/ICustomersRepository';
 
@@ -15,6 +16,12 @@ class CreateSessionCustomer {
   ) {}
 
   public async execute({ email, password }: IRequest): Promise<string> {
+    const schema = Yup.object().shape({
+      email: Yup.string().email().required().min(5),
+      password: Yup.string().required().min(6),
+    });
+    await schema.validate({ email, password }, { abortEarly: false });
+
     const customerExistsEmail = await this.customersRepository.findByEmail(
       email,
     );

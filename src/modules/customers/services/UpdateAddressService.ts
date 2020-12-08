@@ -1,4 +1,5 @@
 import { inject, injectable } from 'tsyringe';
+import * as Yup from 'yup';
 import AppError from '@shared/errors/AppError';
 import Address from '../infra/typeorm/entities/Address';
 import IAddressesRepository from '../repositories/IAddressesRepository';
@@ -24,8 +25,21 @@ class UpdateAddressService {
   ) {}
 
   public async execute(addressUpdate: IRequest): Promise<Address> {
-    const address = await this.addressesRepository.findById(addressUpdate.id);
+    const schema = Yup.object().shape({
+      address: Yup.string().required().min(3),
+      number: Yup.string().required().min(1),
+      complement: Yup.string(),
+      district: Yup.string().required().min(1),
+      city: Yup.string().required().min(1),
+      state: Yup.string().required().min(1),
+      country: Yup.string().required().min(1),
+      zipcode: Yup.string().required().min(1),
+      id: Yup.string().uuid().required(),
+      customerId: Yup.string().uuid().required(),
+    });
+    await schema.validate(addressUpdate, { abortEarly: false });
 
+    const address = await this.addressesRepository.findById(addressUpdate.id);
     if (!address) throw new AppError('This address does not exist.');
 
     if (address.customer.id !== addressUpdate.customerId)
