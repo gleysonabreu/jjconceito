@@ -14,6 +14,7 @@ class CustomersRepository implements ICustomersRepository {
   public async create(customerUser: ICreateCustomerDTO): Promise<Customer> {
     const customer = this.ormRepository.create(customerUser);
 
+    await customer.encryptPassword();
     await this.ormRepository.save(customer);
     return customer;
   }
@@ -31,6 +32,21 @@ class CustomersRepository implements ICustomersRepository {
     });
 
     return findCustomer;
+  }
+
+  public async findByCpf(cpf: string): Promise<Customer | undefined> {
+    const findCustomer = await this.ormRepository.findOne({
+      where: {
+        cpf,
+      },
+    });
+
+    return findCustomer;
+  }
+
+  public async update(customer: Customer): Promise<Customer> {
+    const customerUpdated = await this.ormRepository.save({ ...customer });
+    return customerUpdated;
   }
 }
 
