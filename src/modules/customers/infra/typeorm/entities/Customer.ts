@@ -55,7 +55,7 @@ class Customer {
         email: this.email,
         id: this.id,
       },
-      process.env.JWT_SECRET_TOKEN,
+      String(process.env.JWT_SECRET_TOKEN),
       {
         expiresIn: '1h',
       },

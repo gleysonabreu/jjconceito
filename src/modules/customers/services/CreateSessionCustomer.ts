@@ -27,10 +27,10 @@ class CreateSessionCustomer {
     );
 
     if (!customerExistsEmail)
-      throw new AppError('The email or password you entered is wrong.');
+      throw new AppError('The email or password you entered is wrong.', 401);
 
     if (!(await customerExistsEmail.comparePassword(password)))
-      throw new AppError('The email or password you entered is wrong.');
+      throw new AppError('The email or password you entered is wrong.', 401);
 
     const token = await customerExistsEmail.session();
 

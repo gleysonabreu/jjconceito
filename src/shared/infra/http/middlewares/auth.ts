@@ -17,7 +17,9 @@ async function auth(request: Request, response: Response, next: NextFunction) {
   if (bearer !== 'Bearer') throw new AppError('Invalid bearer', 401);
 
   try {
-    const tokenInfo = <IJwt>jwt.verify(token, process.env.JWT_SECRET_TOKEN);
+    const tokenInfo = <IJwt>(
+      jwt.verify(token, String(process.env.JWT_SECRET_TOKEN))
+    );
     request.customerId = tokenInfo.id;
 
     return next();

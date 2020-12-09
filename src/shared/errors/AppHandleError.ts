@@ -23,7 +23,7 @@ const AppHandleError = (
     const errors: ValidationErrors = {};
 
     error.inner.forEach(err => {
-      errors[err.path] = err.errors;
+      errors[String(err.path)] = err.errors;
     });
 
     return response.status(400).json({

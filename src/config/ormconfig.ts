@@ -14,8 +14,8 @@ const ormConfig: ConnectionOptions = {
   database: process.env.TYPEORM_DATABASE,
   synchronize: process.env.TYPEORM_SYNCHRONIZE === 'true',
   logging: process.env.TYPEORM_LOGGING === 'true',
-  entities: [process.env.TYPEORM_ENTITIES],
-  migrations: [process.env.TYPEORM_MIGRATIONS],
+  entities: [String(process.env.TYPEORM_ENTITIES)],
+  migrations: [String(process.env.TYPEORM_MIGRATIONS)],
 
   cli: {
     migrationsDir: process.env.TYPEORM_MIGRATIONS_DIR,
