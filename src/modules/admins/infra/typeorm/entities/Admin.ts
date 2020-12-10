@@ -25,8 +25,8 @@ class Admin {
   @Column()
   password: string;
 
-  @Column({ name: 'level_access' })
-  levelAccess: number;
+  @Column()
+  level_access: number;
 
   @CreateDateColumn()
   created_at: Date;
@@ -40,7 +40,7 @@ class Admin {
         firstname: this.firstname,
         lastname: this.lastname,
         email: this.email,
-        levelAccess: this.levelAccess,
+        levelAccess: this.level_access,
         id: this.id,
       },
       String(process.env.JWT_SECRET_TOKEN_ADMIN),
