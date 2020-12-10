@@ -24,4 +24,8 @@ export default {
       zipcode: faker.address.zipCode(),
     };
   },
+
+  factoryCategory() {
+    return { name: faker.name.findName() };
+  },
 };
