@@ -40,6 +40,7 @@ class Admin {
         firstname: this.firstname,
         lastname: this.lastname,
         email: this.email,
+        levelAccess: this.levelAccess,
         id: this.id,
       },
       String(process.env.JWT_SECRET_TOKEN_ADMIN),
