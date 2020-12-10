@@ -31,6 +31,10 @@ export class CreateAdmin1607609104498 implements MigrationInterface {
             type: 'varchar',
           },
           {
+            name: 'level_access',
+            type: 'integer',
+          },
+          {
             name: 'created_at',
             type: 'timestamp',
             default: 'now()',

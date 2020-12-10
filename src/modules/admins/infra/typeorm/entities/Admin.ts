@@ -25,6 +25,9 @@ class Admin {
   @Column()
   password: string;
 
+  @Column({ name: 'level_access' })
+  levelAccess: number;
+
   @CreateDateColumn()
   created_at: Date;
 
