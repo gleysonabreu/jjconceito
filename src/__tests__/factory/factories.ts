@@ -12,6 +12,16 @@ export default {
     };
   },
 
+  factoryAdmin() {
+    return {
+      firstname: faker.name.firstName(),
+      lastname: faker.name.lastName(),
+      password: faker.internet.password(),
+      email: faker.internet.email(),
+      level_access: 1,
+    };
+  },
+
   factoryAddress() {
     return {
       address: faker.address.streetAddress(),
