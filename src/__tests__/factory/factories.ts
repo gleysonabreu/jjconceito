@@ -9,16 +9,7 @@ export default {
       email: faker.internet.email(),
       phone: faker.phone.phoneNumber(),
       cpf: '61125563250',
-    };
-  },
-
-  factoryAdmin() {
-    return {
-      firstname: faker.name.firstName(),
-      lastname: faker.name.lastName(),
-      password: faker.internet.password(),
-      email: faker.internet.email(),
-      level_access: 1,
+      level_access: 0,
     };
   },
 

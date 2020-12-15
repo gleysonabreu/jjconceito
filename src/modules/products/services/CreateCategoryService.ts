@@ -6,6 +6,7 @@ import ICategoriesRepository from '../repositories/ICategoriesRepository';
 
 interface IRequest {
   name: string;
+  role: number;
 }
 
 @injectable()
@@ -15,11 +16,15 @@ class CreateCategoryService {
     private categoriesRepository: ICategoriesRepository,
   ) {}
 
-  public async execute({ name }: IRequest): Promise<Category> {
+  public async execute({ name, role }: IRequest): Promise<Category> {
     const schema = Yup.object().shape({
       name: Yup.string().required().min(1),
+      role: Yup.number().required(),
     });
-    await schema.validate({ name }, { abortEarly: false });
+    await schema.validate({ name, role }, { abortEarly: false });
+
+    if (role !== Number(process.env.ADMIN_ACCESS_LEVEL))
+      throw new AppError('You are not an admin', 401);
 
     const categoryExists = await this.categoriesRepository.findByName(name);
     if (categoryExists) throw new AppError('This category exists.');

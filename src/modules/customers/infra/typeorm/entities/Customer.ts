@@ -10,6 +10,7 @@ import {
 
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import config from '@config/crypto';
 import Address from './Address';
 
 @Entity('customers')
@@ -35,6 +36,9 @@ class Customer {
   @Column()
   cpf: string;
 
+  @Column({ default: 0 })
+  level_access: number;
+
   @CreateDateColumn()
   created_at: Date;
 
@@ -50,23 +54,22 @@ class Customer {
   public async session(): Promise<string> {
     return jwt.sign(
       {
+        id: this.id,
         firstname: this.firstname,
         lastname: this.lastname,
         email: this.email,
-        id: this.id,
+        role: this.level_access,
       },
-      String(process.env.JWT_SECRET_TOKEN),
+      config.jwt.privateKey,
       {
-        expiresIn: '1h',
+        algorithm: 'RS256',
+        expiresIn: config.jwt.duation,
       },
     );
   }
 
   public async encryptPassword(): Promise<void> {
-    this.password = await bcrypt.hash(
-      this.password,
-      Number(process.env.BCRYPT_SALT_ROUNDS),
-    );
+    this.password = await bcrypt.hash(this.password, config.saltRounds);
   }
 
   public async comparePassword(password: string): Promise<boolean> {

@@ -17,7 +17,10 @@ class CategoriesController {
     const { name } = request.body;
 
     const createCategoryService = container.resolve(CreateCategoryService);
-    const category = await createCategoryService.execute({ name });
+    const category = await createCategoryService.execute({
+      name,
+      role: Number(request.role),
+    });
     return response.json(category);
   }
 }

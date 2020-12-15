@@ -12,6 +12,7 @@ interface IRequest {
   email: string;
   phone: string;
   cpf: string;
+  level_access?: number;
 }
 
 @injectable()
@@ -29,6 +30,7 @@ class CreateCustomerService {
       email: Yup.string().email().required().min(5),
       phone: Yup.string().required().min(10),
       cpf: Yup.string().required().min(11),
+      level_access: Yup.number(),
     });
     await schema.validate(customerRequest, { abortEarly: false });
 

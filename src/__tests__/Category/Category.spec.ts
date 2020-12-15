@@ -2,7 +2,6 @@ import request from 'supertest';
 import { Connection, getConnection } from 'typeorm';
 import createConnection from '@shared/infra/typeorm/';
 import app from '@shared/infra/http/app';
-import Product from '@modules/products/infra/typeorm/entities/Product';
 import Factories from '../factory/factories';
 
 let connection: Connection;
@@ -25,7 +24,6 @@ describe('Category', () => {
 
   it('should create an category with valid credentials(add credentials valid after)', async () => {
     const category = Factories.factoryCategory();
-
     const response = await request(app).post('/products/categories').send({
       name: category.name,
     });

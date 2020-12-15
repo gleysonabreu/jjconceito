@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import config from '@config/crypto';
 import AppError from '@shared/errors/AppError';
 
 interface IJwt {
@@ -7,6 +8,7 @@ interface IJwt {
   lastname: string;
   email: string;
   id: string;
+  role: number;
 }
 
 async function auth(request: Request, response: Response, next: NextFunction) {
@@ -17,10 +19,9 @@ async function auth(request: Request, response: Response, next: NextFunction) {
   if (bearer !== 'Bearer') throw new AppError('Invalid bearer', 401);
 
   try {
-    const tokenInfo = <IJwt>(
-      jwt.verify(token, String(process.env.JWT_SECRET_TOKEN))
-    );
+    const tokenInfo = <IJwt>jwt.verify(token, config.jwt.pubicKey);
     request.customerId = tokenInfo.id;
+    request.role = tokenInfo.role;
 
     return next();
   } catch (err) {

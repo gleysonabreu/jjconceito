@@ -40,6 +40,12 @@ export class CreateCustomers1607169541485 implements MigrationInterface {
             isUnique: true,
           },
           {
+            name: 'level_access',
+            type: 'integer',
+            default: 0,
+            isNullable: false,
+          },
+          {
             name: 'created_at',
             type: 'timestamp',
             default: 'now()',

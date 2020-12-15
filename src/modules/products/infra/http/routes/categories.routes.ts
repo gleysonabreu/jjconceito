@@ -6,7 +6,7 @@ import CategoriesController from '../controllers/CategoriesController';
 const categoriesRouter = Router();
 const categoriesController = new CategoriesController();
 
-categoriesRouter.post('/', categoriesController.create);
+categoriesRouter.post('/', [auth], categoriesController.create);
 categoriesRouter.get('/:id', categoriesController.show);
 
 export default categoriesRouter;
