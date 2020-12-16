@@ -10,6 +10,15 @@ class CategoriesRepository implements ICategoriesRepository {
     this.ormRepository = getRepository(Category);
   }
 
+  public async delete(category: Category): Promise<void> {
+    await this.ormRepository.remove(category);
+  }
+
+  public async update(categoryUpdate: Category): Promise<Category> {
+    const category = await this.ormRepository.save({ ...categoryUpdate });
+    return category;
+  }
+
   public async create(categoryCreate: ICreateCategoryDTO): Promise<Category> {
     const createCategory = this.ormRepository.create(categoryCreate);
     const category = await this.ormRepository.save(createCategory);
