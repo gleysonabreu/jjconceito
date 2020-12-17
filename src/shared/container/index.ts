@@ -9,6 +9,9 @@ import AddressesRepository from '@modules/customers/infra/typeorm/repositories/A
 import ICategoriesRepository from '@modules/products/repositories/ICategoriesRepository';
 import CategoriesRepository from '@modules/products/infra/typeorm/repositories/CategoriesRepository';
 
+import IProductsRepository from '@modules/products/repositories/IProductsRepository';
+import ProductsRepository from '@modules/products/infra/typeorm/repositories/ProductsRepository';
+
 container.registerSingleton<ICustomersRepository>(
   'CustomersRepository',
   CustomersRepository,
@@ -22,4 +25,9 @@ container.registerSingleton<IAddressesRepository>(
 container.registerSingleton<ICategoriesRepository>(
   'CategoriesRepository',
   CategoriesRepository,
+);
+
+container.registerSingleton<IProductsRepository>(
+  'ProductsRepository',
+  ProductsRepository,
 );

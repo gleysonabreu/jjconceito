@@ -29,4 +29,12 @@ export default {
   factoryCategory() {
     return { name: faker.name.findName() };
   },
+
+  factoryProduct() {
+    return {
+      name: faker.name.findName(),
+      quantity: 1,
+      price: 23.5,
+    };
+  },
 };

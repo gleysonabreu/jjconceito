@@ -33,6 +33,7 @@ export class CreateProducts1607542149449 implements MigrationInterface {
           {
             name: 'category_id',
             type: 'uuid',
+            isNullable: false,
           },
           {
             name: 'created_at',
