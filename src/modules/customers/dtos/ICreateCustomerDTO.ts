@@ -5,4 +5,5 @@ export default interface ICreateCustomerDTO {
   phone: string;
   email: string;
   cpf: string;
+  level_access?: number;
 }

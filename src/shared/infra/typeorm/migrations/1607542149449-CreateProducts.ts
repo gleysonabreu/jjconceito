@@ -1,10 +1,15 @@
-import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import {
+  MigrationInterface,
+  QueryRunner,
+  Table,
+  TableForeignKey,
+} from 'typeorm';
 
-export class CreateCustomers1607169541485 implements MigrationInterface {
+export class CreateProducts1607542149449 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
     await queryRunner.createTable(
       new Table({
-        name: 'customers',
+        name: 'products',
         columns: [
           {
             name: 'id',
@@ -14,35 +19,20 @@ export class CreateCustomers1607169541485 implements MigrationInterface {
             default: `uuid_generate_v4()`,
           },
           {
-            name: 'firstname',
+            name: 'name',
             type: 'varchar',
           },
           {
-            name: 'lastname',
-            type: 'varchar',
+            name: 'price',
+            type: 'decimal',
           },
           {
-            name: 'email',
-            type: 'varchar',
-            isUnique: true,
-          },
-          {
-            name: 'phone',
-            type: 'varchar',
-          },
-          {
-            name: 'password',
-            type: 'varchar',
-          },
-          {
-            name: 'cpf',
-            type: 'char(11)',
-            isUnique: true,
-          },
-          {
-            name: 'level_access',
+            name: 'quantity',
             type: 'integer',
-            default: 0,
+          },
+          {
+            name: 'category_id',
+            type: 'uuid',
             isNullable: false,
           },
           {
@@ -58,9 +48,21 @@ export class CreateCustomers1607169541485 implements MigrationInterface {
         ],
       }),
     );
+
+    await queryRunner.createForeignKey(
+      'products',
+      new TableForeignKey({
+        name: 'products_category',
+        columnNames: ['category_id'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'categories',
+        onDelete: 'CASCADE',
+      }),
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {
-    await queryRunner.dropTable('customers');
+    await queryRunner.dropForeignKey('products', 'products_category');
+    await queryRunner.dropTable('products');
   }
 }

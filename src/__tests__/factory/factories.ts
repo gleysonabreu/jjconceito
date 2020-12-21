@@ -9,6 +9,7 @@ export default {
       email: faker.internet.email(),
       phone: faker.phone.phoneNumber(),
       cpf: '61125563250',
+      level_access: 0,
     };
   },
 
@@ -22,6 +23,18 @@ export default {
       city: faker.address.city(),
       country: faker.address.country(),
       zipcode: faker.address.zipCode(),
+    };
+  },
+
+  factoryCategory() {
+    return { name: faker.name.findName() };
+  },
+
+  factoryProduct() {
+    return {
+      name: faker.name.findName(),
+      quantity: 1,
+      price: 23.5,
     };
   },
 };
