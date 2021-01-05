@@ -13,6 +13,7 @@ interface IRequest {
   phone: string;
   cpf: string;
   level_access?: number;
+  role?: number;
 }
 
 @injectable()
@@ -31,6 +32,7 @@ class CreateCustomerService {
       phone: Yup.string().required().min(10),
       cpf: Yup.string().required().min(11),
       level_access: Yup.number(),
+      role: Yup.number(),
     });
     await schema.validate(customerRequest, { abortEarly: false });
 
@@ -45,6 +47,12 @@ class CreateCustomerService {
       throw new AppError('This CPF is already assigned to a customer.');
     if (customerExistsEmail)
       throw new AppError('This e-mail is already assigned to a customer');
+
+    if (
+      customerRequest.level_access === Number(process.env.ADMIN_ACCESS_LEVEL) &&
+      customerRequest.role !== Number(process.env.ADMIN_ACCESS_LEVEL)
+    )
+      throw new AppError("You don't have permission to create admin user.");
 
     const customer = await this.customersRepository.create(customerRequest);
     return customer;
