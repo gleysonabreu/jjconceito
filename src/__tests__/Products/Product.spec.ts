@@ -7,6 +7,7 @@ import CreateCustomerService from '@modules/customers/services/CreateCustomerSer
 import CreateCategoryService from '@modules/products/services/CreateCategoryService';
 import CreateProductService from '@modules/products/services/CreateProductService';
 import Factories from '../factory/factories';
+import DeleteTables from '../factory/deleteTables';
 
 let connection: Connection;
 describe('Product', () => {
@@ -15,10 +16,7 @@ describe('Product', () => {
   });
 
   beforeEach(async () => {
-    await connection.query('DELETE FROM addresses');
-    await connection.query('DELETE FROM customers');
-    await connection.query('DELETE FROM products');
-    await connection.query('DELETE FROM categories');
+    await DeleteTables(connection);
   });
 
   afterAll(async () => {
@@ -35,7 +33,10 @@ describe('Product', () => {
     customer.level_access = 1;
     const customerCreate = container.resolve(CreateCustomerService);
     const createCateg = container.resolve(CreateCategoryService);
-    const customerAdmin = await customerCreate.execute(customer);
+    const customerAdmin = await customerCreate.execute({
+      ...customer,
+      role: 1,
+    });
     const categoryCreate = await createCateg.execute({
       name: category.name,
       role: customerAdmin.level_access,
@@ -58,7 +59,10 @@ describe('Product', () => {
     const productFactory = Factories.factoryProduct();
     const customer = Factories.factoryCustomer();
     const customerCreate = container.resolve(CreateCustomerService);
-    const customerAdmin = await customerCreate.execute(customer);
+    const customerAdmin = await customerCreate.execute({
+      ...customer,
+      role: 1,
+    });
 
     const response = await request(app)
       .post('/products')
@@ -96,7 +100,10 @@ describe('Product', () => {
     customer.level_access = 1;
     const customerCreate = container.resolve(CreateCustomerService);
     const createCateg = container.resolve(CreateCategoryService);
-    const customerAdmin = await customerCreate.execute(customer);
+    const customerAdmin = await customerCreate.execute({
+      ...customer,
+      role: 1,
+    });
     const categoryCreate = await createCateg.execute({
       name: category.name,
       role: customerAdmin.level_access,
@@ -133,7 +140,10 @@ describe('Product', () => {
     customer.level_access = 1;
     const customerCreate = container.resolve(CreateCustomerService);
     const createCateg = container.resolve(CreateCategoryService);
-    const customerAdmin = await customerCreate.execute(customer);
+    const customerAdmin = await customerCreate.execute({
+      ...customer,
+      role: 1,
+    });
     const categoryCreate = await createCateg.execute({
       name: category.name,
       role: customerAdmin.level_access,
@@ -166,7 +176,10 @@ describe('Product', () => {
     customer.level_access = 1;
     const category = Factories.factoryCategory();
     const customerCreate = container.resolve(CreateCustomerService);
-    const customerAdmin = await customerCreate.execute(customer);
+    const customerAdmin = await customerCreate.execute({
+      ...customer,
+      role: 1,
+    });
     const createCateg = container.resolve(CreateCategoryService);
     const categoryCreate = await createCateg.execute({
       name: category.name,
@@ -224,7 +237,10 @@ describe('Product', () => {
     customer.level_access = 1;
     const category = Factories.factoryCategory();
     const customerCreate = container.resolve(CreateCustomerService);
-    const customerAdmin = await customerCreate.execute(customer);
+    const customerAdmin = await customerCreate.execute({
+      ...customer,
+      role: 1,
+    });
     const createCateg = container.resolve(CreateCategoryService);
     const categoryCreate = await createCateg.execute({
       name: category.name,
@@ -257,7 +273,10 @@ describe('Product', () => {
     customer.level_access = 1;
     const category = Factories.factoryCategory();
     const customerCreate = container.resolve(CreateCustomerService);
-    const customerAdmin = await customerCreate.execute(customer);
+    const customerAdmin = await customerCreate.execute({
+      ...customer,
+      role: 1,
+    });
     const createCateg = container.resolve(CreateCategoryService);
     const categoryCreate = await createCateg.execute({
       name: category.name,
@@ -293,7 +312,10 @@ describe('Product', () => {
     customer.level_access = 1;
     const category = Factories.factoryCategory();
     const customerCreate = container.resolve(CreateCustomerService);
-    const customerAdmin = await customerCreate.execute(customer);
+    const customerAdmin = await customerCreate.execute({
+      ...customer,
+      role: 1,
+    });
     const createCateg = container.resolve(CreateCategoryService);
     const categoryCreate = await createCateg.execute({
       name: category.name,

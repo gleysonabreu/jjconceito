@@ -7,6 +7,7 @@ const customersRouter = Router();
 const customersController = new CustomersController();
 
 customersRouter.post('/', customersController.create);
+customersRouter.post('/admin', [auth], customersController.create);
 customersRouter.put('/', [auth], customersController.update);
 
 export default customersRouter;

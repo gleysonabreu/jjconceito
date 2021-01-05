@@ -3,6 +3,7 @@ import { Connection, getConnection } from 'typeorm';
 import createConnection from '@shared/infra/typeorm/';
 import app from '@shared/infra/http/app';
 import Factories from '../factory/factories';
+import DeleteTables from '../factory/deleteTables';
 
 let connection: Connection;
 describe('Customer', () => {
@@ -11,8 +12,7 @@ describe('Customer', () => {
   });
 
   beforeEach(async () => {
-    await connection.query('DELETE FROM addresses');
-    await connection.query('DELETE FROM customers');
+    await DeleteTables(connection);
   });
 
   afterAll(async () => {

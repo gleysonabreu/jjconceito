@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response, ErrorRequestHandler } from 'express';
 import { ValidationError } from 'yup';
 import AppError from './AppError';
 
@@ -6,7 +6,7 @@ interface ValidationErrors {
   [key: string]: string[];
 }
 
-const AppHandleError = (
+const AppHandleError: ErrorRequestHandler = (
   error: Error,
   request: Request,
   response: Response,
@@ -23,7 +23,7 @@ const AppHandleError = (
     const errors: ValidationErrors = {};
 
     error.inner.forEach(err => {
-      errors[String(err.path)] = err.errors;
+      if (err.path) errors[err.path] = err.errors;
     });
 
     return response.status(400).json({

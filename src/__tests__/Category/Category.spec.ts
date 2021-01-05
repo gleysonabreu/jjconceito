@@ -5,6 +5,7 @@ import app from '@shared/infra/http/app';
 import CreateCustomerService from '@modules/customers/services/CreateCustomerService';
 import { container } from 'tsyringe';
 import Factories from '../factory/factories';
+import DeleteTables from '../factory/deleteTables';
 
 let connection: Connection;
 describe('Category', () => {
@@ -13,9 +14,7 @@ describe('Category', () => {
   });
 
   beforeEach(async () => {
-    await connection.query('DELETE FROM categories');
-    await connection.query('DELETE FROM addresses');
-    await connection.query('DELETE FROM customers');
+    await DeleteTables(connection);
   });
 
   afterAll(async () => {
@@ -30,7 +29,10 @@ describe('Category', () => {
     const customer = Factories.factoryCustomer();
     customer.level_access = 1;
     const createCustomer = container.resolve(CreateCustomerService);
-    const customerAdmin = await createCustomer.execute(customer);
+    const customerAdmin = await createCustomer.execute({
+      ...customer,
+      role: 1,
+    });
 
     const response = await request(app)
       .post('/products/categories')
@@ -50,7 +52,10 @@ describe('Category', () => {
     const category = Factories.factoryCategory();
     const customer = Factories.factoryCustomer();
     const createCustomer = container.resolve(CreateCustomerService);
-    const customerAdmin = await createCustomer.execute(customer);
+    const customerAdmin = await createCustomer.execute({
+      ...customer,
+      role: 1,
+    });
 
     const response = await request(app)
       .post('/products/categories')
@@ -72,7 +77,10 @@ describe('Category', () => {
     const customer = Factories.factoryCustomer();
     customer.level_access = 1;
     const createCustomer = container.resolve(CreateCustomerService);
-    const customerAdmin = await createCustomer.execute(customer);
+    const customerAdmin = await createCustomer.execute({
+      ...customer,
+      role: 1,
+    });
 
     const createCateg = await request(app)
       .post('/products/categories')
@@ -100,7 +108,10 @@ describe('Category', () => {
     const category = Factories.factoryCategory();
     const customer = Factories.factoryCustomer();
     const createCustomer = container.resolve(CreateCustomerService);
-    const customerAdmin = await createCustomer.execute(customer);
+    const customerAdmin = await createCustomer.execute({
+      ...customer,
+      role: 1,
+    });
 
     const createCateg = await request(app)
       .post('/products/categories')
@@ -125,7 +136,10 @@ describe('Category', () => {
     const customer = Factories.factoryCustomer();
     customer.level_access = 1;
     const createCustomer = container.resolve(CreateCustomerService);
-    const customerAdmin = await createCustomer.execute(customer);
+    const customerAdmin = await createCustomer.execute({
+      ...customer,
+      role: 1,
+    });
 
     const createCateg = await request(app)
       .post('/products/categories')
@@ -146,7 +160,10 @@ describe('Category', () => {
     const customer = Factories.factoryCustomer();
     customer.level_access = 1;
     const createCustomer = container.resolve(CreateCustomerService);
-    const customerAdmin = await createCustomer.execute(customer);
+    const customerAdmin = await createCustomer.execute({
+      ...customer,
+      role: 1,
+    });
 
     const createCateg = await request(app)
       .post('/products/categories')
@@ -167,7 +184,10 @@ describe('Category', () => {
     const customer = Factories.factoryCustomer();
     customer.level_access = 1;
     const createCustomer = container.resolve(CreateCustomerService);
-    const customerAdmin = await createCustomer.execute(customer);
+    const customerAdmin = await createCustomer.execute({
+      ...customer,
+      role: 1,
+    });
 
     const response = await request(app)
       .delete(`/products/categories/sfs54fsf4-fsfs5f`)

@@ -5,6 +5,7 @@ import app from '@shared/infra/http/app';
 import { container } from 'tsyringe';
 import CreateCustomerService from '@modules/customers/services/CreateCustomerService';
 import Factories from '../factory/factories';
+import DeleteTables from '../factory/deleteTables';
 
 let connection: Connection;
 describe('Address', () => {
@@ -13,8 +14,7 @@ describe('Address', () => {
   });
 
   beforeEach(async () => {
-    await connection.query('DELETE FROM addresses');
-    await connection.query('DELETE FROM customers');
+    await DeleteTables(connection);
   });
 
   afterAll(async () => {
